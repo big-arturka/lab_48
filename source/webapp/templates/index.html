@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}
+    Main page
+{% endblock %}
 
-</body>
-</html>
+{% block content %}
+    <div class="main_page">
+    <h1>Online Shop</h1>
+        {% for products in product %}
+            <div>
+                <div>
+                    <h5><a href="#">Product name: {{ products.name }}</a></h5>
+                </div>
+{#            <p><a class="btn btn-info"  href="{% url 'task_view' products.pk %}">More...</a></p>#}
+{#            <p><a class="btn btn-info"  href="{% url 'task_update' products.pk %}">Edit</a></p>#}
+{#            <p><a class="btn btn-info"  href="{% url 'task_delete' products.pk %}">Delete</a></p>#}
+            </div>
+        {% endfor %}
+        <p><input type="submit" class="btn btn-info" value="Delete marked"/></p>
+    </div>
+    <div class="new_task">
+        <a href="#" class="btn btn-info">Add new product</a>
+    </div>
+{% endblock %}
