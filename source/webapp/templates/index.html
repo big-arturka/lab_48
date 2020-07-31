@@ -11,14 +11,14 @@
                 <div>
                     <h5><a href="#">Product name: {{ products.name }}</a></h5>
                 </div>
-{#            <p><a class="btn btn-info"  href="{% url 'task_view' products.pk %}">More...</a></p>#}
-{#            <p><a class="btn btn-info"  href="{% url 'task_update' products.pk %}">Edit</a></p>#}
-{#            <p><a class="btn btn-info"  href="{% url 'task_delete' products.pk %}">Delete</a></p>#}
+            <p><a class="btn btn-info"  href="{% url 'product_view' products.pk %}">More...</a></p>
+            <p><a class="btn btn-info"  href="{% url 'product_update' products.pk %}">Edit</a></p>
+            <p><a class="btn btn-info"  href="{% url 'product_delete' products.pk %}">Delete</a></p>
             </div>
         {% endfor %}
         <p><input type="submit" class="btn btn-info" value="Delete marked"/></p>
     </div>
     <div class="new_task">
-        <a href="#" class="btn btn-info">Add new product</a>
+        <a href="{% url 'product_create' %}" class="btn btn-info">Add new product</a>
     </div>
 {% endblock %}

@@ -2,12 +2,22 @@
 {% block title %}Task{% endblock %}
 
 {% block menu %}
-
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'product_update' product.pk %}">Edit</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'product_delete' product.pk %}">Delete</a>
+    </li>
 {% endblock %}
 
 
 {% block content %}
 <div class="container">
-
+    <h1>Product View</h1>
+    <h3>Category: {{ product.category }}</h3>
+    <h2>Product name: {{ product.name }}</h2>
+    <p>Product description: {{ product.description }}</p>
+    <h3>Amount: {{ product.amount }}</h3>
+    <h3>Product price: {{ product.price }}</h3>
 </div>
 {% endblock %}

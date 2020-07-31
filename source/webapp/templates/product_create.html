@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}New Product{% endblock %}
+
+{% block menu %}
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'index' %}">Cancel</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="form">
+        <h1>Add new product</h1>
+
+        {% url 'product_create' as action_url %}
+        {% include 'partial/form.html' with action_url=action_url form_method='post' %}
+
+    </div>
+{% endblock %}

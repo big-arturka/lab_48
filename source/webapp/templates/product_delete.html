@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
-{% block title %}Task{% endblock %}
+
+{% block title %}Delete{% endblock %}
 
 {% block menu %}
-
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'product_view' product.pk %}">Cancel</a>
+    </li>
 {% endblock %}
 
-
 {% block content %}
-<div class="container">
-
-</div>
+    <h1>Are you sure you want to delete the product "{{ product.name }}"?</h1>
+    <form action="{% url 'product_delete' product.pk %}" method="post">
+        {% csrf_token %}
+        <p><input type="submit" class="btn btn-info" value="Yes"></p>
+        <a class="nav-link btn btn-info" style="width: 50px; height: 36px" href="{% url 'product_view' product.pk %}">No</a>
+    </form>
 {% endblock %}
