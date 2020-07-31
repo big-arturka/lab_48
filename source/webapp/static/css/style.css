@@ -1,11 +1,56 @@
+body {
+    background: #DCDCDC;
+}
+
+.title {
+    text-align: center;
+    font-size: 50px;
+    margin: 20px auto;
+    font-weight: bold;
+    color: 	#2F4F4F;
+    text-shadow: 2px 2px 2px black;
+}
+
+.btn {
+    margin: 25px 0;
+}
+
+.card {
+    border-radius: 20px;
+    margin: 30px auto;
+}
+
 .form-input {
-    width: 900px;
+    width: 90%;
+    height: 45px;
+    border-radius: 15px;
 }
 
 .form-area {
-    width: 900px;
+    width: 90%;
+    height: 150px;
+    border-radius: 15px;
 }
 
 .form-select {
-    width: 900px;
+    width: 90%;
+    height: 45px;
+    border-radius: 15px;
+}
+
+.category_link {
+    color: black;
+}
+
+.category_link:hover {
+    color: black;
+}
+
+.form {
+    background: #FAEBD7;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 20px;
 }

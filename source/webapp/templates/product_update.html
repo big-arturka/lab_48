@@ -3,7 +3,10 @@
 
 {% block menu %}
     <li class="nav-item active">
-        <a class="nav-link" href="{% url 'product_view' product.pk %}">Cancel</a>
+        <a class="nav-link" href="{% url 'product_create' %}">Добавить новый продукт</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'product_view' product.pk %}">Отмена</a>
     </li>
 {% endblock %}
 
@@ -12,7 +15,7 @@
         <h1>Update Product</h1>
 
         {% url 'product_update' pk=product.pk as action_url %}
-        {% include 'partial/form.html' with action_url=action_url form_method='post' button_text='Update' %}
+        {% include 'partial/form.html' with action_url=action_url form_method='post' button_text='Обновить' %}
 
     </div>
 {% endblock %}

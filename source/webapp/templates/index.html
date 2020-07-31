@@ -1,24 +1,27 @@
 {% extends 'base.html' %}
-{% block title %}
-    Main page
+{% block title %}Shop-ON-homE{% endblock %}
+
+{% block menu %}
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'product_create' %}">Добавить новый продукт</a>
+    </li>
 {% endblock %}
 
 {% block content %}
     <div class="main_page">
-    <h1>Online Shop</h1>
+        <h1 class="title">Online Shop</h1>
         {% for products in product %}
-            <div>
-                <div>
-                    <h5><a href="#">Product name: {{ products.name }}</a></h5>
+            <div class="card w-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ products.name }}</h5>
+                    <p class="card-text">Category: <a href="#" class="category_link">{{ products.category }}</a></p>
+                    <p class="card-text">Price: {{ products.price }}</p>
+                    <a href="{% url 'product_view' products.pk %}" class="btn btn-primary">Подробнее</a>
+                    <a href="{% url 'product_update' products.pk %}" class="btn btn-primary">Изменить</a>
+                    <a href="{% url 'product_delete' products.pk %}" class="btn btn-primary">Удалить</a>
                 </div>
-            <p><a class="btn btn-info"  href="{% url 'product_view' products.pk %}">More...</a></p>
-            <p><a class="btn btn-info"  href="{% url 'product_update' products.pk %}">Edit</a></p>
-            <p><a class="btn btn-info"  href="{% url 'product_delete' products.pk %}">Delete</a></p>
             </div>
         {% endfor %}
-        <p><input type="submit" class="btn btn-info" value="Delete marked"/></p>
     </div>
-    <div class="new_task">
-        <a href="{% url 'product_create' %}" class="btn btn-info">Add new product</a>
-    </div>
+    <a href="{% url 'product_create' %}" class="btn btn-primary btn-lg btn-block">Добавить товар</a>
 {% endblock %}

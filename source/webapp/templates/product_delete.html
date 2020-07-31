@@ -4,15 +4,22 @@
 
 {% block menu %}
     <li class="nav-item active">
-        <a class="nav-link" href="{% url 'product_view' product.pk %}">Cancel</a>
+        <a class="nav-link" href="{% url 'product_view' product.pk %}">Отмена</a>
     </li>
 {% endblock %}
 
 {% block content %}
-    <h1>Are you sure you want to delete the product "{{ product.name }}"?</h1>
+<div class="card">
     <form action="{% url 'product_delete' product.pk %}" method="post">
         {% csrf_token %}
-        <p><input type="submit" class="btn btn-info" value="Yes"></p>
-        <a class="nav-link btn btn-info" style="width: 50px; height: 36px" href="{% url 'product_view' product.pk %}">No</a>
+        <h5 class="card-header">Удаление</h5>
+        <div class="card-body">
+            <h5 class="card-title">Вы действительно хотите удалить товар "{{ product.name }}"?</h5>
+            <p class="card-text">Описание товара: {{ product.description }}</p>
+            <p><input type="submit" class="btn btn-primary btn-lg btn-block" value="Да"></p>
+            <a class="btn btn-primary btn-lg btn-block"  href="{% url 'product_view' product.pk %}">Нет</a>
+        </div>
     </form>
+</div>
+
 {% endblock %}

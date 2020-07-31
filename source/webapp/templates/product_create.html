@@ -3,16 +3,19 @@
 
 {% block menu %}
     <li class="nav-item active">
-        <a class="nav-link" href="{% url 'index' %}">Cancel</a>
+        <a class="nav-link" href="{% url 'product_create' %}">Добавить новый продукт</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'index' %}">Отмена</a>
     </li>
 {% endblock %}
 
 {% block content %}
     <div class="form">
-        <h1>Add new product</h1>
+        <h1 class="title">Add new product</h1>
 
         {% url 'product_create' as action_url %}
-        {% include 'partial/form.html' with action_url=action_url form_method='post' %}
+        {% include 'partial/form.html' with action_url=action_url form_method='post' button_text='Сохранить'%}
 
     </div>
 {% endblock %}
