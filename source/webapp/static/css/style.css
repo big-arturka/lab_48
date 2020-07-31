@@ -16,6 +16,7 @@ body {
 }
 
 .card {
+    background: #FAEBD7;
     border-radius: 20px;
     margin: 30px auto;
 }

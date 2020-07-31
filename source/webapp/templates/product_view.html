@@ -19,12 +19,12 @@
     <h1 class="title">Product View</h1>
     <div class="card text-center">
         <div class="card-header">
-            Категория: <a href="#" class="category_link">{{ product.category }}</a>
+            Категория: <a href="{% url 'category_view' product.category %}" class="category_link">{{ product.category }}</a>
         </div>
         <div class="card-body">
             <h4 class="card-title">{{ product.name }}</h4>
             <p class="card-text">Описание: {{ product.description }}</p>
-            <p class="card-text"><h3>Цена: {{ product.price }}</h3></p>
+            <p class="card-text"><h3>Цена: {{ product.price }}</h3>
             <a href="{% url 'product_update' product.pk %}" class="btn btn-primary">Изменить</a>
             <a href="{% url 'product_delete' product.pk %}" class="btn btn-primary">Удалить</a>
             <a href="{% url 'index' %}" class="btn btn-primary" >На главную</a>

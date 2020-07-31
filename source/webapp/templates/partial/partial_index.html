@@ -1,0 +1,14 @@
+{% for products in product %}
+    {% if products.amount > 0 %}
+        <div class="card w-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ products.name }}</h5>
+                <p class="card-text">Категория: <a href="{% url 'category_view' products.category %}" class="category_link">{{ products.get_category_display }}</a></p>
+                <p class="card-text">Цена: {{ products.price }}</p>
+                <a href="{% url 'product_view' products.pk %}" class="btn btn-primary">Подробнее</a>
+                <a href="{% url 'product_update' products.pk %}" class="btn btn-primary">Изменить</a>
+                <a href="{% url 'product_delete' products.pk %}" class="btn btn-primary">Удалить</a>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}

@@ -1,14 +1,33 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from webapp.models import Product
+from webapp.models import Product, CATEGORY_CHOICES
 from django.http import HttpResponseNotAllowed
 from webapp.forms import ProductForm
 
 
 def index_view(request):
-    data = Product.objects.all()
-    return render(request, 'index.html', context={
-        'product': data
-    })
+    product = Product.objects.all()
+    if request.method == 'GET':
+        return render(request, 'index.html', context={
+            'product': product,
+            'categories': CATEGORY_CHOICES
+        })
+    elif request.method == 'POST':
+        data = Product.objects.filter(name=request.POST.get('search_item'))
+        return render(request, 'index.html', context={
+            'product': data
+        })
+    else:
+        return HttpResponseNotAllowed(permitted_methods=['GET', 'POST'])
+
+
+def category_view(request, category):
+    product = Product.objects.filter(category=category)
+    if request.method == 'GET':
+        return render(request, 'category_view.html', context={
+            'product': product,
+            'category': category,
+            'categories': CATEGORY_CHOICES
+        })
 
 
 def product_view(request, pk):
