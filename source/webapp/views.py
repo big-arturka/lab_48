@@ -6,18 +6,11 @@ from webapp.forms import ProductForm
 
 def index_view(request):
     product = Product.objects.all()
-    if request.method == 'GET':
-        return render(request, 'index.html', context={
-            'product': product,
-            'categories': CATEGORY_CHOICES
-        })
-    elif request.method == 'POST':
-        data = Product.objects.filter(name=request.POST.get('search_item'))
-        return render(request, 'index.html', context={
-            'product': data
-        })
-    else:
-        return HttpResponseNotAllowed(permitted_methods=['GET', 'POST'])
+    if request.GET.get('search_item'):
+        product = Product.objects.filter(name=request.GET.get('search_item'))
+    return render(request, 'index.html', context={'product': product,
+                                                  'form': ProductForm(),
+                                                  'categories': CATEGORY_CHOICES})
 
 
 def category_view(request, category):
@@ -25,7 +18,7 @@ def category_view(request, category):
     if request.method == 'GET':
         return render(request, 'category_view.html', context={
             'product': product,
-            'category': category,
+            'category': request.GET.get(''),
             'categories': CATEGORY_CHOICES
         })
 

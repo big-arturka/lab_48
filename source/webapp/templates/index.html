@@ -11,7 +11,7 @@
     <div class="main_page">
         <h1 class="title">Online Shop</h1>
         <div class="search">
-            <form class="form-inline my-2 my-lg-0" method="post">
+            <form class="form-inline my-2 my-lg-0" method="get">
                 {% csrf_token %}
                 <input class="form-control mr-sm-2" name="search_item" type="search" placeholder="Введите название..." aria-label="Search">
                 <button class="btn btn-outline-primary my-2 my-sm-0 search-btn" type="submit">Поиск</button>

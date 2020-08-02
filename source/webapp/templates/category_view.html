@@ -9,7 +9,7 @@
 
 {% block content %}
     <div class="main_page">
-        <h1 class="title">{{ category }}</h1>
+        <h1 class="title">{{ product.get_category_display }}</h1>
         <div class="btn-group">
             <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Фильтр по категории
