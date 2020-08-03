@@ -7,18 +7,18 @@ from webapp.forms import ProductForm
 def index_view(request):
     product = Product.objects.all()
     if request.GET.get('search_item'):
-        product = Product.objects.filter(name=request.GET.get('search_item'))
+        product = Product.objects.filter(name=request.GET.get('search_item')).order_by('name')
     return render(request, 'index.html', context={'product': product,
                                                   'form': ProductForm(),
                                                   'categories': CATEGORY_CHOICES})
 
 
 def category_view(request, category):
-    product = Product.objects.filter(category=category)
+    product = Product.objects.filter(category=category).order_by('name')
     if request.method == 'GET':
         return render(request, 'category_view.html', context={
             'product': product,
-            'category': request.GET.get(''),
+            'category': category,
             'categories': CATEGORY_CHOICES
         })
 

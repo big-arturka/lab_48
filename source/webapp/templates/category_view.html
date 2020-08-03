@@ -9,12 +9,16 @@
 
 {% block content %}
     <div class="main_page">
-        <h1 class="title">{{ product.get_category_display }}</h1>
+        {% for eng_name, ru_name in categories %}
+            {% if eng_name == category %}
+                <h1 class="title">{{ ru_name }}</h1>
+            {% endif %}
+        {% endfor %}
         <div class="btn-group">
-            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-outline-primary dropdown-toggle" id="dropdownMenuButton"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Фильтр по категории
             </button>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 {% for eng_name, ru_name in categories %}
                     <a class="dropdown-item" href="{% url 'category_view' eng_name %}">{{ ru_name }}</a>
                 {% endfor %}
