@@ -21,6 +21,15 @@
                     </li>
                     {% block menu %}{% endblock %}
                 </ul>
+
+            {% block search %}
+                <div class="search">
+                    <form class="form-inline my-2 my-lg-0" method="get">
+                        {{ search_form.search }}
+                        <button class="btn btn-outline-primary my-2 my-sm-0 search-btn" type="submit">Поиск</button>
+                    </form>
+                </div>
+            {% endblock %}
             </div>
         </div>
     </nav>
