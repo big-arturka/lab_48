@@ -12,7 +12,7 @@ class IndexView(SearchView):
     template_name = 'product/index.html'
     context_object_name = 'products'
     paginate_by = 5
-    paginate_orphans = 3
+    paginate_orphans = 2
     model = Product
     ordering = ['category', 'name']
     search_fields = ['name__icontains']
@@ -22,12 +22,17 @@ class IndexView(SearchView):
         context['categories'] = CATEGORY_CHOICES
         return context
 
+    def get_queryset(self):
+        data = super().get_queryset()
+        data = data.filter(amount__gt=0)
+        return data
+
 
 class CategoryView(SearchView):
     template_name = 'product/category_view.html'
     context_object_name = 'products'
     paginate_by = 5
-    paginate_orphans = 3
+    paginate_orphans = 2
     model = Product
     ordering = ['name']
     search_fields = ['name__icontains']
