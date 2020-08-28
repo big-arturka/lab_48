@@ -30,3 +30,10 @@ class Product(models.Model):
 class Basket(models.Model):
     product = models.ForeignKey('webapp.Product', related_name='baskets', on_delete=models.PROTECT, verbose_name='Товар')
     count = models.IntegerField(verbose_name='Колличество', validators=[MinValueValidator(1)])
+
+    def __str__(self):
+        return f'{self.product}-{self.count}'
+
+    class Meta:
+        verbose_name = 'Корзина'
+        verbose_name_plural = 'Корзины'

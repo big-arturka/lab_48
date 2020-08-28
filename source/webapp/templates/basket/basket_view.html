@@ -10,8 +10,8 @@
 {% block content %}
     <div class="main_page">
         <h1 class="title">Online Shop</h1>
-        {% for product in products %}
-            <p>{{ product.product }}</p>
+        {% for product in basket %}
+            <p>{{ product.product.name }}</p>
             <p>{{ product.count }}</p>
         {% endfor %}
 
