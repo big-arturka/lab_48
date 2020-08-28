@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Shop-ON-homE{% endblock %}
+
+{% block menu %}
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'product_create' %}">Добавить новый продукт</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="main_page">
+        <h1 class="title">Online Shop</h1>
+        {% for product in products %}
+            <p>{{ product.product }}</p>
+            <p>{{ product.count }}</p>
+        {% endfor %}
+
+
+    </div>
+    <a href="{% url 'product_create' %}" class="btn btn-primary btn-lg btn-block">Добавить товар</a>
+
+{% endblock %}

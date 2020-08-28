@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from webapp.views.basket_views import ProductAddView
+from webapp.views.basket_views import ProductAddView, BasketView
 from webapp.views.product_views import ProductCreateView, ProductDeleteView, ProductView, ProductUpdateView, IndexView, \
     CategoryView
 
@@ -31,4 +31,6 @@ urlpatterns = [
     path('product/<int:pk>/add/', ProductAddView.as_view(), name='product_add'),
 
     path('product/<str:category>/', CategoryView.as_view(), name='category_view'),
+
+    path('basket/', BasketView.as_view(), name='basket_view'),
 ]
