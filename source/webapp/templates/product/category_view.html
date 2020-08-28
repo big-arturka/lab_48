@@ -9,11 +9,13 @@
 
 {% block content %}
     <div class="main_page">
+
         {% for eng_name, ru_name in categories %}
             {% if eng_name == category %}
                 <h1 class="title">{{ ru_name }}</h1>
             {% endif %}
         {% endfor %}
+
         <div class="btn-group">
             <button type="button" class="btn btn-outline-primary dropdown-toggle" id="dropdownMenuButton"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Фильтр по категории

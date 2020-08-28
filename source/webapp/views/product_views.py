@@ -1,6 +1,7 @@
+from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 
-from webapp.models import Product
+from webapp.models import Product, CATEGORY_CHOICES
 from webapp.forms import ProductForm
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 
@@ -16,15 +17,32 @@ class IndexView(SearchView):
     ordering = ['category', 'name']
     search_fields = ['name__icontains']
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = CATEGORY_CHOICES
+        return context
 
-# def category_view(request, category):
-#     product = Product.objects.filter(category=category).order_by('name')
-#     if request.method == 'GET':
-#         return render(request, 'category_view.html', context={
-#             'product': product,
-#             'category': category,
-#             'categories': CATEGORY_CHOICES
-#         })
+
+class CategoryView(SearchView):
+    template_name = 'product/category_view.html'
+    context_object_name = 'products'
+    paginate_by = 5
+    paginate_orphans = 3
+    model = Product
+    ordering = ['name']
+    search_fields = ['name__icontains']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = self.kwargs.get('category')
+        context['categories'] = CATEGORY_CHOICES
+        return context
+
+    def get_queryset(self):
+        data = super().get_queryset()
+        category = self.kwargs.get('category')
+        data = data.filter(category=category)
+        return data
 
 
 class ProductView(DetailView):

@@ -25,6 +25,7 @@
 
     </div>
     <a href="{% url 'product_create' %}" class="btn btn-primary btn-lg btn-block">Добавить товар</a>
+
     {% if is_paginated %}
         {% include 'partial/pagination.html' %}
     {% endif %}
