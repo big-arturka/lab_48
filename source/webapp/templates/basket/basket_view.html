@@ -9,14 +9,29 @@
 
 {% block content %}
     <div class="main_page">
-        <h1 class="title">Online Shop</h1>
-        {% for product in basket %}
-            <p>{{ product.product.name }}</p>
-            <p>{{ product.count }}</p>
-        {% endfor %}
+    <h1 class="title">Online Shop</h1>
 
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Название товара</th>
+                    <th scope="col">Колличество</th>
+                    <th scope="col">Цена за ед.</th>
+                    <th scope="col">Сумма</th>
+                </tr>
+            </thead>
+            {% for product, summ in basket %}
+                <tbody>
+                    <tr>
+                    <th scope="row">{{ product.product.name }}</th>
+                        <td>{{ product.count }}</td>
+                        <td>{{ product.product.price }}</td>
+                        <td>summ</td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    <h4>{{ total }}</h4>
 
     </div>
-    <a href="{% url 'product_create' %}" class="btn btn-primary btn-lg btn-block">Добавить товар</a>
-
 {% endblock %}

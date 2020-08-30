@@ -20,6 +20,9 @@
                         <a class="nav-link" href="{% url 'index' %}">Shop-ON-homE</a>
                     </li>
                     {% block menu %}{% endblock %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'basket_view' %}">Просмотреть корзину</a>
+                    </li>
                 </ul>
 
             {% block search %}
