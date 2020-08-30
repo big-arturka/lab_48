@@ -32,12 +32,11 @@ class BasketView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         basket_dict = {}
-        products = Basket.objects.all()
         total = 0
-        for product in products:
-            summ = product.product.price * product.product
-            basket_dict[product.product] = summ
-            total += summ
+        for product in Basket.objects.all():
+            suma = product.product.price * product.count
+            basket_dict[product] = suma
+            total += suma
         context['basket'] = basket_dict
         context['total'] = total
         return context

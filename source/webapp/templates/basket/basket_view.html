@@ -20,18 +20,19 @@
                     <th scope="col">Сумма</th>
                 </tr>
             </thead>
-            {% for product, summ in basket %}
+            {% for product, summ in basket.items %}
                 <tbody>
                     <tr>
                     <th scope="row">{{ product.product.name }}</th>
                         <td>{{ product.count }}</td>
                         <td>{{ product.product.price }}</td>
-                        <td>summ</td>
+                        <td>{{ summ }}</td>
                     </tr>
                 </tbody>
             {% endfor %}
         </table>
-    <h4>{{ total }}</h4>
+        <hr>
+    <h4>Итого: {{ total }}</h4>
 
     </div>
 {% endblock %}
