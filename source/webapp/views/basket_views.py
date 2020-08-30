@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, get_object_or_404
-from django.views.generic import ListView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import ListView, DeleteView
 from django.views.generic.base import View
 
 from webapp.models import Basket, Product
@@ -40,3 +41,11 @@ class BasketView(ListView):
         context['basket'] = basket_dict
         context['total'] = total
         return context
+
+
+class BasketDeleteView(DeleteView):
+    model = Basket
+    success_url = reverse_lazy('basket_view')
+
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)

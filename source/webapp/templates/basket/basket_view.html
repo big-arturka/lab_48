@@ -27,6 +27,7 @@
                         <td>{{ product.count }}</td>
                         <td>{{ product.product.price }}</td>
                         <td>{{ summ }}</td>
+                        <td><a href="{% url 'basket_delete' product.pk %}" class="btn-primary">Удалить</a></td>
                     </tr>
                 </tbody>
             {% endfor %}
