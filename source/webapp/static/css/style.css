@@ -81,3 +81,17 @@ body {
 .search-form {
     margin-left: 550px;
 }
+
+
+.basket-delete {
+    padding: 5px;
+    background: blue;
+    border-radius: 5px;
+    color: white;
+}
+
+.basket-delete:hover {
+    color: blue;
+    text-decoration: None;
+    background: white;
+}

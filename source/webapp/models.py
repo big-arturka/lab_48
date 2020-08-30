@@ -37,3 +37,18 @@ class Basket(models.Model):
     class Meta:
         verbose_name = 'Корзина'
         verbose_name_plural = 'Корзины'
+
+
+class Order(models.Model):
+    product = models.ManyToManyField('webapp.Product', related_name='orders', through='webapp.OrderProduct',
+                                     verbose_name='Товары')
+    name = models.CharField(max_length=200, verbose_name='Имя пользователя')
+    phone = models.CharField(max_length=200, verbose_name='Телефона')
+    address = models.CharField(max_length=200, verbose_name='Адрес')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
+
+
+class OrderProduct(models.Model):
+    product = models.ForeignKey('webapp.Product', related_name='product_orders', on_delete=models.CASCADE, verbose_name='Товар')
+    order = models.ForeignKey('webapp.Order', related_name='order_products', on_delete=models.CASCADE, verbose_name='Заказ')
+    count = models.IntegerField(verbose_name='Колличество')
