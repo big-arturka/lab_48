@@ -9,6 +9,12 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'name', 'phone', 'address', 'created_at')
+    list_display_links = ('pk', 'name')
+    ordering = ('-created_at',)
+
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Basket)
-admin.site.register(Order)
+admin.site.register(Order, OrderAdmin)
