@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 from webapp.views.basket_views import ProductAddView, BasketView, BasketDeleteView
+from webapp.views.order_views import OrderCreateView
 from webapp.views.product_views import ProductCreateView, ProductDeleteView, ProductView, ProductUpdateView, IndexView, \
     CategoryView
 
@@ -34,4 +35,6 @@ urlpatterns = [
 
     path('basket/', BasketView.as_view(), name='basket_view'),
     path('basket/<int:pk>/delete/', BasketDeleteView.as_view(), name='basket_delete'),
+
+    path('order/create/', OrderCreateView.as_view(), name='order_create'),
 ]

@@ -41,11 +41,18 @@ class Basket(models.Model):
 
 class Order(models.Model):
     product = models.ManyToManyField('webapp.Product', related_name='orders', through='webapp.OrderProduct',
-                                     verbose_name='Товары')
+                                     through_fields=('order', 'product'), verbose_name='Товары')
     name = models.CharField(max_length=200, verbose_name='Имя пользователя')
     phone = models.CharField(max_length=200, verbose_name='Телефона')
     address = models.CharField(max_length=200, verbose_name='Адрес')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
+
+    def __str__(self):
+        return f'{self.id}-{self.name}'
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
 
 
 class OrderProduct(models.Model):

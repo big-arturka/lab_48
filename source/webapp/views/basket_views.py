@@ -3,6 +3,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DeleteView
 from django.views.generic.base import View
 
+from webapp.forms import OrderForm
 from webapp.models import Basket, Product
 
 
@@ -40,6 +41,7 @@ class BasketView(ListView):
             total += suma
         context['basket'] = basket_dict
         context['total'] = total
+        context['form'] = OrderForm()
         return context
 
 
