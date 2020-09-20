@@ -119,23 +119,5 @@
     "amount": 1,
     "price": "200.00"
   }
-},
-{
-  "model": "auth.user",
-  "pk": 1,
-  "fields": {
-    "password": "pbkdf2_sha256$150000$NAMADa9UizSE$/K3WatvdPcI5yo8EI9+rjgUzEEadx6QsTyQ/JqGHh+c=",
-    "last_login": "2020-08-27T14:34:34.061Z",
-    "is_superuser": true,
-    "username": "admin",
-    "first_name": "",
-    "last_name": "",
-    "email": "",
-    "is_staff": true,
-    "is_active": true,
-    "date_joined": "2020-07-30T14:07:00.163Z",
-    "groups": [],
-    "user_permissions": []
-  }
 }
 ]
