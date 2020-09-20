@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Basket, Order, OrderProduct
+from .models import Product, Cart, Order, OrderProduct
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -9,12 +9,19 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
+class OrderProductAdmin(admin.TabularInline):
+    model = OrderProduct
+    fields = ('product', 'qty')
+    extra = 0
+
+
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'phone', 'address', 'created_at')
+    list_display = ('pk', 'name', 'phone', 'created_at')
     list_display_links = ('pk', 'name')
     ordering = ('-created_at',)
+    inlines = (OrderProductAdmin,)
 
 
 admin.site.register(Product, ProductAdmin)
-admin.site.register(Basket)
-admin.site.register(Order)
+admin.site.register(Cart)
+admin.site.register(Order, OrderAdmin)

@@ -1,4 +1,4 @@
-"""main URL Configuration
+"""hello URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -18,28 +18,9 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 
-from webapp.views.basket_views import ProductAddView, BasketView, BasketDeleteView
-from webapp.views.order_views import OrderCreateView
-from webapp.views.product_views import ProductCreateView, ProductDeleteView, ProductView, ProductUpdateView, IndexView, \
-    CategoryView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', IndexView.as_view(), name='index'),
-    path('product/add/', ProductCreateView.as_view(), name='product_create'),
-    path('product/<int:pk>/', ProductView.as_view(), name='product_view'),
-    path('product/<int:pk>/edit/', ProductUpdateView.as_view(), name='product_update'),
-    path('product/<int:pk>/delete/', ProductDeleteView.as_view(), name='product_delete'),
-
-    path('product/<int:pk>/add/', ProductAddView.as_view(), name='product_add'),
-
-    path('product/<str:category>/', CategoryView.as_view(), name='category_view'),
-
-    path('basket/', BasketView.as_view(), name='basket_view'),
-    path('basket/<int:pk>/delete/', BasketDeleteView.as_view(), name='basket_delete'),
-
-    path('order/create/', OrderCreateView.as_view(), name='order_create'),
-
-
     path('accounts/', include('accounts.urls')),
+    path('', include('webapp.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

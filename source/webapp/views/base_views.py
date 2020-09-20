@@ -1,10 +1,10 @@
 from django.db.models import Q
-from django.views.generic import ListView
+from django.views.generic import ListView as DjangoListView
 
 from webapp.forms import SimpleSearchForm
 
 
-class SearchView(ListView):
+class SearchView(DjangoListView):
     search_form_class = SimpleSearchForm
     search_form_field = 'search'
     search_fields = []
@@ -21,7 +21,7 @@ class SearchView(ListView):
         return context
 
     def get_queryset(self):
-        data = super().get_queryset()
+        data = super(SearchView, self).get_queryset()
         query = self.get_query(self.search_value)
         data = data.filter(query)
         return data

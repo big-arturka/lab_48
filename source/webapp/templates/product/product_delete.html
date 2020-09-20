@@ -3,23 +3,14 @@
 {% block title %}Delete{% endblock %}
 
 {% block menu %}
-    <li class="nav-item active">
-        <a class="nav-link" href="{% url 'product_view' product.pk %}">Отмена</a>
-    </li>
+    <li><a href="{% url 'webapp:product_view' product.pk %}">Отмена</a></li>
 {% endblock %}
 
 {% block content %}
-<div class="card">
-    <form action="{% url 'product_delete' product.pk %}" method="post">
+    <h1>Вы уверены, что хотите удалить товар "{{ product }}" ({{ product.get_category_display }})?</h1>
+    <form action="{% url "webapp:product_delete" product.pk %}" method="post">
         {% csrf_token %}
-        <h5 class="card-header">Удаление</h5>
-        <div class="card-body">
-            <h5 class="card-title">Вы действительно хотите удалить товар "{{ product.name }}"?</h5>
-            <p class="card-text">Описание товара: {{ product.description }}</p>
-            <p><input type="submit" class="btn btn-primary btn-lg btn-block" value="Да"></p>
-            <a class="btn btn-primary btn-lg btn-block"  href="{% url 'product_view' product.pk %}">Нет</a>
-        </div>
+        <p><input type="submit" value="Да"></p>
+        <p><a href="{% url 'webapp:product_view' product.pk %}">Отмена</a></p>
     </form>
-</div>
-
 {% endblock %}

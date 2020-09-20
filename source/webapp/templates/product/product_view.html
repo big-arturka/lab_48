@@ -1,42 +1,18 @@
 {% extends 'base.html' %}
-{% block title %}PRODUCT{% endblock %}
+
+{% block title %}View{% endblock %}
 
 {% block menu %}
-    <li class="nav-item active">
-        <a class="nav-link" href="{% url 'product_create' %}">Добавить новый продукт</a>
-    </li>
-    <li class="nav-item active">
-        <a class="nav-link" href="{% url 'product_update' product.pk %}">Изменить</a>
-    </li>
-    <li class="nav-item active">
-        <a class="nav-link" href="{% url 'product_delete' product.pk %}">Удалить</a>
-    </li>
+    <li><a href="{% url 'webapp:product_update' product.pk %}">Update</a></li>
+    <li><a href="{% url 'webapp:product_delete' product.pk %}">Delete</a></li>
+    <li>{% include 'partial/cart_add_form.html' %}</li>
 {% endblock %}
 
-
 {% block content %}
-<div class="container">
-    <h1 class="title">Product View</h1>
-    <div class="card text-center">
-        <div class="card-header">
-            Категория: <a href="{% url 'category_view' product.category %}" class="category_link">{{ product.category }}</a>
-        </div>
-        <div class="card-body">
-            <h4 class="card-title">{{ product.name }}</h4>
-            <p class="card-text">Описание: {{ product.description }}</p>
-            <p class="card-text"><h3>Цена: {{ product.price }}</h3>
-            <a href="{% url 'product_update' product.pk %}" class="btn btn-primary">Изменить</a>
-            <a href="{% url 'product_delete' product.pk %}" class="btn btn-primary">Удалить</a>
-            <a href="{% url 'index' %}" class="btn btn-primary" >На главную</a>
-            <form action="{% url 'product_add' product.pk %}" method="post">
-                {% csrf_token %}
-                <label for="added_product {{ product.pk }}"></label>
-                <input type="submit" class="btn btn-primary" name="add" value="Добавить в корзину">
-            </form>
-        </div>
-        <div class="card-footer text-muted">
-            Кол-во: {{ product.amount }}
-        </div>
+    <div class="box">
+        <h1>{{ product.name }}</h1>
+        <p>Категория: {{ product.get_category_display }}</p>
+        <p>Осталось: {{ product.amount }} по {{ product.price  }} сом</p>
+        <p class="pre">{{ product.description }}</p>
     </div>
-</div>
 {% endblock %}

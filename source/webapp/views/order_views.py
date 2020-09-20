@@ -1,24 +1,132 @@
-from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import CreateView
-from django.views.generic.base import View
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse, reverse_lazy
+from django.views.generic import ListView, CreateView, DeleteView
 
-from webapp.forms import OrderForm
-from webapp.models import Order, Product, Basket, OrderProduct
+from webapp.forms import CartAddForm, OrderForm
+from webapp.models import Cart, Product, Order, OrderProduct
 
 
-class OrderCreateView(View):
-    def post(self, request):
-        form = OrderForm(data=request.POST)
-        if form.is_valid():
-            order = Order.objects.create(**form.cleaned_data)
-            for product in Basket.objects.all():
-                OrderProduct.objects.create(product=product.product, order=order, count=product.count)
-                prod = Product.objects.get(pk=product.product.pk)
-                prod.amount = prod.amount - product.count
-                prod.save()
-            Basket.objects.all().delete()
-            return redirect('index')
+class CartView(ListView):
+    template_name = 'order/cart_view.html'
+    context_object_name = 'cart'
+
+    def get_queryset(self):
+        return Cart.get_with_product().filter(pk__in=self.get_cart_ids())
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context['cart_total'] = Cart.get_cart_total(ids=self.get_cart_ids())
+        context['form'] = OrderForm()
+        return context
+
+    def get_cart_ids(self):
+        cart_ids = self.request.session.get('cart_ids', [])
+        print(cart_ids)
+        return self.request.session.get('cart_ids', [])
+
+
+class CartAddView(CreateView):
+    model = Cart
+    form_class = CartAddForm
+
+    def post(self, request, *args, **kwargs):
+        self.product = get_object_or_404(Product, pk=self.kwargs.get('pk'))
+        return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        # qty = 1
+        # бонус
+        qty = form.cleaned_data.get('qty', 1)
+
+        try:
+            cart_product = Cart.objects.get(product=self.product, pk__in=self.get_cart_ids())
+            cart_product.qty += qty
+            if cart_product.qty <= self.product.amount:
+                cart_product.save()
+        except Cart.DoesNotExist:
+            if qty <= self.product.amount:
+                cart_product = Cart.objects.create(product=self.product, qty=qty)
+                self.save_to_session(cart_product)
+
+        return redirect(self.get_success_url())
+
+    def form_invalid(self, form):
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        # бонус
+        next = self.request.GET.get('next')
+        if next:
+            return next
+        return reverse('webapp:index')
+
+    def get_cart_ids(self):
+        return self.request.session.get('cart_ids', [])
+
+    def save_to_session(self, cart_product):
+        cart_ids = self.request.session.get('cart_ids', [])
+        if cart_product.pk not in cart_ids:
+            cart_ids.append(cart_product.pk)
+        self.request.session['cart_ids'] = cart_ids
+
+
+class CartDeleteView(DeleteView):
+    model = Cart
+    success_url = reverse_lazy('webapp:cart_view')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.delete_from_session()
+        self.object.delete()
+        return redirect(success_url)
+
+    def delete_from_session(self):
+        cart_ids = self.request.session.get('cart_ids', [])
+        cart_ids.remove(self.object.pk)
+        self.request.session['cart_ids'] = cart_ids
+
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
+
+
+class CartDeleteOneView(CartDeleteView):
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+
+        self.object.qty -= 1
+        if self.object.qty < 1:
+            self.delete_from_session()
+            self.object.delete()
         else:
-            basket = Basket.objects.all()
-            return render(request, 'basket/basket_view.html', context={'form': form,
-                                                                       'basket': basket})
+            self.object.save()
+
+        return redirect(success_url)
+
+
+class OrderCreateView(CreateView):
+    model = Order
+    form_class = OrderForm
+    success_url = reverse_lazy('webapp:index')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        order = self.object
+        cart_products = Cart.objects.all()
+        products = []
+        order_products = []
+        for item in cart_products:
+            product = item.product
+            qty = item.qty
+            product.amount -= qty
+            products.append(product)
+            order_product = OrderProduct(order=order, product=product, qty=qty)
+            order_products.append(order_product)
+        OrderProduct.objects.bulk_create(order_products)
+        Product.objects.bulk_update(products, ('amount',))
+        cart_products.delete()
+        return response
+
+    def form_invalid(self, form):
+        return redirect('webapp:cart_view')

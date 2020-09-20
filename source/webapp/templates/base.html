@@ -1,4 +1,4 @@
-{% load static %}
+{% load staticfiles %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,44 +6,59 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{% block title %}My Shop{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <title>{% block title %}My Site{% endblock %}</title>
+
+    <!-- XDSoft DateTimePicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block links %}{% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar">
         <div class="container">
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'index' %}">Shop-ON-homE</a>
-                    </li>
+            <ul class="menu">
+                <li><a href="{% url "webapp:index" %}">Home</a></li>
+                <li><a href="{% url "webapp:cart_view" %}">Cart</a></li>
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url "webapp:product_create" %}">Add Product</a></li>
                     {% block menu %}{% endblock %}
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'basket_view' %}">Просмотреть корзину</a>
-                    </li>
-                </ul>
+                    <li><a href="{% url 'accounts:detail' request.user.pk %}">
+                        Привет, {{ request.user.get_full_name|default:request.user.username }}
+                    </a></li>
+                {% endif %}
+                {% block auth_menu %}
+                    {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'accounts:logout' %}?next={{ request.get_full_path }}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'accounts:login' %}?next={{ request.get_full_path }}">Login</a></li>
+                        <li><a href="{% url 'accounts:create' %}?next={{ request.get_full_path }}">Sign Up</a></li>
+                    {% endif %}
+                {% endblock %}
+                {% if not request.user.is_authenticated %}
+                    <li><a href="{% url 'accounts:password_reset_email' %}">Reset Password</a></li>
+                {% endif %}
+            </ul>
 
             {% block search %}
-                <div class="search">
-                    <form class="form-inline my-2 my-lg-0" method="get">
-                        {{ search_form.search }}
-                        <button class="btn btn-outline-primary my-2 my-sm-0 search-btn" type="submit">Поиск</button>
-                    </form>
-                </div>
+                {% if search_form %}
+                    <div class="search-form">
+                        <form action="{% url 'webapp:index' %}" method="GET">
+                            {{ search_form.search }}
+                            <input type="submit" value="Найти">
+                        </form>
+                    </div>
+                {% endif %}
             {% endblock %}
-            </div>
         </div>
     </nav>
     <div class="container">
-        {% block content %}
-
-        {% endblock %}
+        {% include 'partial/messages.html' %}
+        {% block content %}{% endblock %}
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script type="application/javascript" src="{% static 'js/bootstrap.bundle.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+    {% block scripts %}{% endblock %}
 </body>
 </html>

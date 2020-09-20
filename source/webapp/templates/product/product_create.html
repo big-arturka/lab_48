@@ -1,21 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}New Product{% endblock %}
 
-{% block menu %}
-    <li class="nav-item active">
-        <a class="nav-link" href="{% url 'product_create' %}">Добавить новый продукт</a>
-    </li>
-    <li class="nav-item active">
-        <a class="nav-link" href="{% url 'index' %}">Отмена</a>
-    </li>
-{% endblock %}
+{% block title %}Create{% endblock %}
 
 {% block content %}
-    <div class="form">
-        <h1 class="title">Add new product</h1>
+    <h1>Create Product</h1>
 
-        {% url 'product_create' as action_url %}
-        {% include 'partial/form.html' with action_url=action_url form_method='post' button_text='Сохранить'%}
-
-    </div>
+    {% url "webapp:product_create" as action_url %}
+    {% include 'partial/form.html' with action_url=action_url form_method='post' %}
 {% endblock %}

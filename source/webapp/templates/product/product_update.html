@@ -1,21 +1,14 @@
-{% extends 'base.html' %}
-{% block title %}Update product{% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Update{% endblock %}
 
 {% block menu %}
-    <li class="nav-item active">
-        <a class="nav-link" href="{% url 'product_create' %}">Добавить новый продукт</a>
-    </li>
-    <li class="nav-item active">
-        <a class="nav-link" href="{% url 'product_view' product.pk %}">Отмена</a>
-    </li>
+    <li><a href="{% url 'webapp:product_view' product.pk %}">Отмена</a></li>
 {% endblock %}
 
 {% block content %}
-    <div class="form">
-        <h1 class="title">Update Product</h1>
+    <h1>Update Product</h1>
 
-        {% url 'product_update' pk=product.pk as action_url %}
-        {% include 'partial/form.html' with action_url=action_url form_method='post' button_text='Обновить' %}
-
-    </div>
+    {% url "webapp:product_update" pk=product.pk as action_url %}
+    {% include 'partial/form.html' with action_url=action_url form_method='post' button_text='Update' %}
 {% endblock %}
