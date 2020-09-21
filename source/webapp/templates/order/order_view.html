@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Заказы:</h1>
+    {% for order in orders %}
+        <div class="box">
+            <h3>Номер заказа: {{ order.pk }}</h3>
+            <p>Имя: {{ order.name }}</p>
+            <p>Телефон: {{ order.phone }}</p>
+            <p>Адрес: {{ order.address }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}

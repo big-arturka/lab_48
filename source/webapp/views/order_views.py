@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView
@@ -34,8 +35,6 @@ class CartAddView(CreateView):
         return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
-        # qty = 1
-        # бонус
         qty = form.cleaned_data.get('qty', 1)
 
         try:
@@ -116,6 +115,10 @@ class OrderCreateView(CreateView):
         cart_products = Cart.objects.all()
         products = []
         order_products = []
+        if self.request.user.is_authenticated:
+            user = self.request.user
+            order.user = user
+            order.save()
         for item in cart_products:
             product = item.product
             qty = item.qty
@@ -130,3 +133,11 @@ class OrderCreateView(CreateView):
 
     def form_invalid(self, form):
         return redirect('webapp:cart_view')
+
+
+class OrderView(LoginRequiredMixin, ListView):
+    template_name = 'order/order_view.html'
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        return Order.objects.filter(user_id=self.request.user.pk)
