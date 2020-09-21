@@ -77,6 +77,13 @@ class Order(models.Model):
     def format_time(self):
         return self.created_at.strftime('%Y-%m-%d %H:%M:%S')
 
+    def get_order_total(self):
+        total = 0
+        order_products = OrderProduct.objects.filter(order=self.pk)
+        for i in order_products:
+            total += i.qty * i.product.price
+        return total
+
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'

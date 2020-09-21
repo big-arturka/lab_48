@@ -8,6 +8,15 @@
             <p>Имя: {{ order.name }}</p>
             <p>Телефон: {{ order.phone }}</p>
             <p>Адрес: {{ order.address }}</p>
+            {% for product in order.order_products.all %}
+                <hr>
+                <p>Product name: {{ product.product.name }} Amount: {{ product.qty }}</p>
+                <p>Price: {{ product.product.price }}</p>
+                <hr>
+            {% endfor %}
+            Total price: {{ order.get_order_total }}
+
+
         </div>
     {% endfor %}
 {% endblock %}
