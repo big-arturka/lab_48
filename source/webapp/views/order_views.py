@@ -1,10 +1,12 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView
 
 from webapp.forms import CartAddForm, OrderForm
 from webapp.models import Cart, Product, Order, OrderProduct
+
+from django.contrib import messages
 
 
 class CartView(ListView):
@@ -42,10 +44,14 @@ class CartAddView(CreateView):
             cart_product.qty += qty
             if cart_product.qty <= self.product.amount:
                 cart_product.save()
+                messages.add_message(self.request, messages.SUCCESS,
+                                     f'Товар {self.product.name} ({qty}шт.) добавлен в корзину!')
         except Cart.DoesNotExist:
             if qty <= self.product.amount:
                 cart_product = Cart.objects.create(product=self.product, qty=qty)
                 self.save_to_session(cart_product)
+                messages.add_message(self.request, messages.SUCCESS,
+                                     f'Товар {self.product.name} ({qty}шт.) добавлен в корзину!')
 
         return redirect(self.get_success_url())
 
@@ -53,7 +59,6 @@ class CartAddView(CreateView):
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        # бонус
         next = self.request.GET.get('next')
         if next:
             return next
@@ -78,6 +83,7 @@ class CartDeleteView(DeleteView):
         success_url = self.get_success_url()
         self.delete_from_session()
         self.object.delete()
+        messages.add_message(self.request, messages.WARNING, f'Товар {self.object.product.name} удален с корзины!')
         return redirect(success_url)
 
     def delete_from_session(self):
@@ -98,9 +104,11 @@ class CartDeleteOneView(CartDeleteView):
         if self.object.qty < 1:
             self.delete_from_session()
             self.object.delete()
+            messages.add_message(self.request, messages.WARNING, f'Товар {self.object.product.name} удален с корзины!')
         else:
             self.object.save()
-
+            messages.add_message(self.request, messages.WARNING,
+                                 f'Количество товара {self.object.product.name} уменьшен на 1!')
         return redirect(success_url)
 
 
