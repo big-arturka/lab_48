@@ -17,7 +17,7 @@
     "name": "\u041c\u0438\u043d\u0435\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u0432\u043e\u0434\u0430",
     "description": "\u0412\u043a\u0443\u0441\u043d\u0430\u044f, \u0445\u043e\u043b\u043e\u0434\u043d\u0430\u044f, \u0433\u043e\u0440\u043d\u0430\u044f \u0432\u043e\u0434\u0430. \"\u041b\u0435\u0433\u0435\u043d\u0434\u0430\"!",
     "category": "food",
-    "amount": 98,
+    "amount": 97,
     "price": "20.00"
   }
 },
@@ -28,7 +28,7 @@
     "name": "\u041b\u0435\u043f\u0451\u0448\u043a\u0430 \u0442\u0430\u043d\u0434\u044b\u0440\u043d\u0430\u044f",
     "description": "\u0412\u043a\u0443\u0441\u043d\u0430\u044f, \u0433\u043e\u0440\u044f\u0447\u0430\u044f \u043b\u0435\u043f\u0451\u0448\u043a\u0430.",
     "category": "food",
-    "amount": 1,
+    "amount": 0,
     "price": "22.00"
   }
 },
@@ -83,7 +83,7 @@
     "name": "\u0414\u0436\u0443\u0441\u0438 \u0444\u0440\u0443\u0442",
     "description": "\u041e\u0442 \u043d\u0435\u0433\u043e \u043c\u0443\u0445\u0438 \u043c\u0440\u0443\u0442,\r\n\u0410 \u0442\u0432\u043e\u0439 \u043e\u0440\u0431\u0438\u0442 \u0432\u0441\u0435 \u0437\u0443\u0431\u044b \u0441\u0433\u043e\u0440\u0431\u0438\u0442!",
     "category": "food",
-    "amount": 986,
+    "amount": 985,
     "price": "5.00"
   }
 },
@@ -118,30 +118,6 @@
     "category": "other",
     "amount": 1,
     "price": "200.00"
-  }
-},
-{
-  "model": "webapp.cart",
-  "pk": 27,
-  "fields": {
-    "product": 9,
-    "qty": 1
-  }
-},
-{
-  "model": "webapp.cart",
-  "pk": 28,
-  "fields": {
-    "product": 3,
-    "qty": 1
-  }
-},
-{
-  "model": "webapp.cart",
-  "pk": 29,
-  "fields": {
-    "product": 2,
-    "qty": 1
   }
 },
 {
@@ -241,6 +217,17 @@
     "address": "qwe",
     "created_at": "2020-09-21T08:57:56.469Z",
     "user": 2
+  }
+},
+{
+  "model": "webapp.order",
+  "pk": 16,
+  "fields": {
+    "name": "ya",
+    "phone": "123",
+    "address": "12243",
+    "created_at": "2020-09-21T11:22:58.299Z",
+    "user": 3
   }
 },
 {
@@ -379,6 +366,33 @@
   }
 },
 {
+  "model": "webapp.orderproduct",
+  "pk": 23,
+  "fields": {
+    "product": 9,
+    "order": 16,
+    "qty": 1
+  }
+},
+{
+  "model": "webapp.orderproduct",
+  "pk": 24,
+  "fields": {
+    "product": 3,
+    "order": 16,
+    "qty": 1
+  }
+},
+{
+  "model": "webapp.orderproduct",
+  "pk": 25,
+  "fields": {
+    "product": 2,
+    "order": 16,
+    "qty": 1
+  }
+},
+{
   "model": "accounts.profile",
   "pk": 1,
   "fields": {
@@ -392,7 +406,16 @@
   "pk": 2,
   "fields": {
     "user": 3,
-    "birth_date": null,
+    "birth_date": "2020-09-21",
+    "avatar": ""
+  }
+},
+{
+  "model": "accounts.profile",
+  "pk": 3,
+  "fields": {
+    "user": 1,
+    "birth_date": "2020-09-21",
     "avatar": ""
   }
 }
