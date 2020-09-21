@@ -46,13 +46,16 @@ class CartAddView(CreateView):
                 cart_product.save()
                 messages.add_message(self.request, messages.SUCCESS,
                                      f'Товар {self.product.name} ({qty}шт.) добавлен в корзину!')
+            else:
+                messages.add_message(self.request, messages.ERROR, 'Ошибка, невозможно добавить товар!')
         except Cart.DoesNotExist:
             if qty <= self.product.amount:
                 cart_product = Cart.objects.create(product=self.product, qty=qty)
                 self.save_to_session(cart_product)
                 messages.add_message(self.request, messages.SUCCESS,
                                      f'Товар {self.product.name} ({qty}шт.) добавлен в корзину!')
-
+            else:
+                messages.add_message(self.request, messages.ERROR, 'Ошибка, невозможно добавить товар!')
         return redirect(self.get_success_url())
 
     def form_invalid(self, form):
