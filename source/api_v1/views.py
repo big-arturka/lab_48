@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet, ModelViewSet
 
 from api_v1.serializers import ProductSerializer, OrderSerializer
-from webapp.models import Product, Order
+from webapp.models import Product, Order, OrderProduct
 
 
 @ensure_csrf_cookie
@@ -23,18 +23,24 @@ class ProductViewSet(ModelViewSet):
     serializer_class = ProductSerializer
 
 
-class OrderListView(APIView):
-    def get(self, request, *args, **kwargs):
-        order = Order.objects.all()
-        slr = OrderSerializer(order, many=True)
+class OrderViewSet(ViewSet):
+    queryset = Order.objects.all()
+
+    def list(self, request):
+        objects = Order.objects.all()
+        slr = OrderSerializer(objects, many=True, context={'request': request})
         return Response(slr.data)
 
-
-class OrderCreateView(APIView):
-    def post(self, request, *args, **kwargs):
-        slr = OrderSerializer(data=request.data)
+    def create(self, request):
+        slr = OrderSerializer(data=request.data, context={'request': request})
+        order = slr.create(request.data)
         if slr.is_valid():
-            order = slr.save()
-            return Response(slr.data)
+            order.save()
+            return Response(order)
         else:
             return Response(slr.errors, status=400)
+
+    def retrieve(self, request, pk=None):
+        object = get_object_or_404(Order, pk=pk)
+        slr = OrderSerializer(object, context={'request': request})
+        return Response(slr.data)
