@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet, ModelViewSet
 
 from api_v1.serializers import ProductSerializer, OrderSerializer
-from webapp.models import Product, Order, OrderProduct
+from webapp.models import Product, Order, OrderProduct, Cart
 
 
 @ensure_csrf_cookie
@@ -46,11 +46,17 @@ class OrderViewSet(ViewSet):
 
     def create(self, request):
         slr = OrderSerializer(data=request.data, context={'request': request})
-        order = slr.create(request.data)
+        order = slr.create(request.data, context={})
         if slr.is_valid():
             order.save()
-            print(order)
-            return Response(slr.data)
+            ans = {
+                "id": order.id,
+                "name": order.name,
+                "phone": order.phone,
+                "address": order.address,
+                "created_at": order.created_at
+            }
+            return Response(ans)
         else:
             return Response(slr.errors, status=400)
 
@@ -58,3 +64,4 @@ class OrderViewSet(ViewSet):
         object = get_object_or_404(Order, pk=pk)
         slr = OrderSerializer(object, context={'request': request})
         return Response(slr.data)
+
