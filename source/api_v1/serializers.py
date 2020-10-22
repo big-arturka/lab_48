@@ -22,7 +22,6 @@ class OrderSerializer(serializers.ModelSerializer):
         order.phone = validated_data['phone']
         order.address = validated_data['address']
         order.user_id = validated_data['user']
-        print(order)
         for product in products:
             OrderProduct.objects.create(order=order, product_id=product['product'], qty=product['qty'])
         return order

@@ -3,6 +3,7 @@ import json
 from django.http import HttpResponseNotAllowed, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import ensure_csrf_cookie
+from rest_framework.permissions import SAFE_METHODS, AllowAny, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet, ModelViewSet
@@ -22,9 +23,21 @@ class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        else:
+            return [IsAdminUser()]
+
 
 class OrderViewSet(ViewSet):
     queryset = Order.objects.all()
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [IsAdminUser()]
+        else:
+            return [AllowAny()]
 
     def list(self, request):
         objects = Order.objects.all()
@@ -36,7 +49,8 @@ class OrderViewSet(ViewSet):
         order = slr.create(request.data)
         if slr.is_valid():
             order.save()
-            return Response(order)
+            print(order)
+            return Response(slr.data)
         else:
             return Response(slr.errors, status=400)
 
